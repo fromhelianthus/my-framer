@@ -21,8 +21,14 @@ const App: React.FC = () => {
                                 initial={{
                                     scale: 1,
                                     opacity: 0.5,
-                                    x: index % 2 === 0 ? "-30%" : "10%",
-                                    y: index < 2 ? "-20%" : "20%",
+                                    x:
+                                        index === 0 || index === 2
+                                            ? "-100%"
+                                            : "",
+                                    y:
+                                        index === 0 || index === 2
+                                            ? ""
+                                            : "-100%",
                                 }}
                                 animate={{
                                     scale: 1.5,
@@ -55,6 +61,12 @@ const App: React.FC = () => {
                     )}
                 </div>
             ))}
+            {activeIndex !== null && (
+                <div
+                    className="overlay"
+                    onClick={() => setActiveIndex(null)}
+                ></div>
+            )}
         </div>
     );
 };
