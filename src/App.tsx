@@ -9,26 +9,26 @@ const App: React.FC = () => {
         setActiveIndex(activeIndex === index ? null : index);
     };
 
+    const initialPosition = (index: number) => {
+        return {
+            x: index === 0 ? "-100%" : index === 1 ? "0%" : index === 2 ? "-100%" : index === 3 ? "0%" : "",
+            y: index === 0 ? "-100%" : index === 1 ? "-100%" : index === 2 ? "0%" : index === 3 ? "0%" : ""
+        };
+    };
+
     return (
         <div className="container">
-            {[0, 1, 2, 3].map((index) => (
-                <div key={index}>
-                    {activeIndex === index && (
-                        <AnimatePresence>
+            <AnimatePresence>
+                {[0, 1, 2, 3].map((index) => (
+                    <div key={index}>
+                        {activeIndex === index ? (
                             <motion.div
                                 className="box"
                                 onClick={() => handleClick(index)}
                                 initial={{
                                     scale: 1,
                                     opacity: 0.5,
-                                    x:
-                                        index === 0 || index === 2
-                                            ? "-100%"
-                                            : "",
-                                    y:
-                                        index === 0 || index === 2
-                                            ? ""
-                                            : "-100%",
+                                    ...initialPosition(index),
                                 }}
                                 animate={{
                                     scale: 1.5,
@@ -36,31 +36,31 @@ const App: React.FC = () => {
                                     y: "-50%",
                                     opacity: 1,
                                 }}
-                                exit={{}}
+                                exit={{
+                                }}
                                 style={{
                                     position: "fixed",
                                     top: "50%",
                                     left: "50%",
                                     zIndex: 10,
                                 }}
-                                key={index}
+                                key={`active-${index}`}
                                 transition={{ duration: 0.3 }}
                             />
-                        </AnimatePresence>
-                    )}
-                    {activeIndex !== index && (
-                        <motion.div
-                            className="box"
-                            onClick={() => handleClick(index)}
-                            whileHover={{ scale: 1.1 }}
-                            animate={{
-                                opacity: 0.5,
-                            }}
-                            key={index}
-                        />
-                    )}
-                </div>
-            ))}
+                        ) : (
+                            <motion.div
+                                className="box"
+                                onClick={() => handleClick(index)}
+                                whileHover={{ scale: 1.1 }}
+                                animate={{
+                                    opacity: 0.5,
+                                }}
+                                key={`inactive-${index}`}
+                            />
+                        )}
+                    </div>
+                ))}
+            </AnimatePresence>
             {activeIndex !== null && (
                 <div
                     className="overlay"
