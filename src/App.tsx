@@ -64,7 +64,7 @@ const App: React.FC = () => {
                                     position: "fixed",
                                     top: "50%",
                                     left: "50%",
-                                    zIndex: 10,
+                                    zIndex: 10, // 중앙으로 온 박스는 높은 z-index
                                 }}
                                 key={`active-${index}`}
                                 transition={{ duration: 0.3 }}
@@ -77,6 +77,7 @@ const App: React.FC = () => {
                                 animate={{
                                     opacity: 0.5,
                                 }}
+                                style={{ zIndex: 5 }} // 다른 박스들도 z-index를 설정
                                 key={`inactive-${index}`}
                             />
                         )}
@@ -87,23 +88,27 @@ const App: React.FC = () => {
             {/* 동그란 원 */}
             <motion.div
                 className="circle"
+                initial={{
+                    x: "30%",
+                    y: "30%",
+                }}
                 animate={{
-                    x: isMoving ? "50%" : "-50%", // 2번째 박스 -> 4번째 박스로 이동
-                    y: isMoving ? "50%" : "-50%", // 2번째 박스 -> 4번째 박스로 이동
+                    x: isMoving ? "-30vw" : "30%", // 버튼 클릭 시 위치 이동
+                    y: isMoving ? "30vh" : "30%",
                 }}
                 transition={{
-                    duration: 1, // 이동 시간
+                    duration: 1,
                     ease: "easeInOut",
                 }}
                 style={{
                     position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                    backgroundColor: "#fcba03",
+                    top: "30%",
+                    left: "60%",
+                    backgroundColor: "#93f3f5",
                     borderRadius: "50%",
-                    width: "50px", // 동그라미 크기
+                    width: "50px",
                     height: "50px",
+                    zIndex: 1, // 동그라미가 박스 아래로 배치되도록 낮은 z-index
                 }}
             />
 
