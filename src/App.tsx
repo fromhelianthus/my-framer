@@ -4,6 +4,7 @@ import "./App.css";
 
 const App: React.FC = () => {
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
+    const [isMoving, setIsMoving] = useState<boolean>(false);
 
     const handleClick = (index: number) => {
         setActiveIndex(activeIndex === index ? null : index);
@@ -11,9 +12,31 @@ const App: React.FC = () => {
 
     const initialPosition = (index: number) => {
         return {
-            x: index === 0 ? "-100%" : index === 1 ? "0%" : index === 2 ? "-100%" : index === 3 ? "0%" : "",
-            y: index === 0 ? "-100%" : index === 1 ? "-100%" : index === 2 ? "0%" : index === 3 ? "0%" : ""
+            x:
+                index === 0
+                    ? "-100%"
+                    : index === 1
+                    ? "0%"
+                    : index === 2
+                    ? "-100%"
+                    : index === 3
+                    ? "0%"
+                    : "",
+            y:
+                index === 0
+                    ? "-100%"
+                    : index === 1
+                    ? "-100%"
+                    : index === 2
+                    ? "0%"
+                    : index === 3
+                    ? "0%"
+                    : "",
         };
+    };
+
+    const toggleCircle = () => {
+        setIsMoving(!isMoving); // 버튼 클릭 시 원의 위치 이동 상태 변경
     };
 
     return (
@@ -36,8 +59,7 @@ const App: React.FC = () => {
                                     y: "-50%",
                                     opacity: 1,
                                 }}
-                                exit={{
-                                }}
+                                exit={{}}
                                 style={{
                                     position: "fixed",
                                     top: "50%",
@@ -61,6 +83,35 @@ const App: React.FC = () => {
                     </div>
                 ))}
             </AnimatePresence>
+
+            {/* 동그란 원 */}
+            <motion.div
+                className="circle"
+                animate={{
+                    x: isMoving ? "50%" : "-50%", // 2번째 박스 -> 4번째 박스로 이동
+                    y: isMoving ? "50%" : "-50%", // 2번째 박스 -> 4번째 박스로 이동
+                }}
+                transition={{
+                    duration: 1, // 이동 시간
+                    ease: "easeInOut",
+                }}
+                style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    backgroundColor: "#fcba03",
+                    borderRadius: "50%",
+                    width: "50px", // 동그라미 크기
+                    height: "50px",
+                }}
+            />
+
+            {/* 버튼 */}
+            <button onClick={toggleCircle} className="toggle-button">
+                Switch
+            </button>
+
             {activeIndex !== null && (
                 <div
                     className="overlay"
